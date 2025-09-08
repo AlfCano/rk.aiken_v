@@ -1,8 +1,10 @@
+
+
 local({
 # --- PRE-FLIGHT CHECK ---
 # Stop if the user is accidentally running this inside an existing plugin folder
-if(basename(getwd()) == "rk.aiken_v") {
-  stop("Your current working directory is already 'rk.aiken_v'. Please navigate to the parent directory ('..') before running this script to avoid creating a nested folder structure.")
+if(basename(getwd()) == "rk.aiken.v") {
+  stop("Your current working directory is already 'rk.aiken.v'. Please navigate to the parent directory ('..') before running this script to avoid creating a nested folder structure.")
 }
 
 # Require "rkwarddev"
@@ -16,14 +18,15 @@ about_author <- person(
   role = c("aut", "cre")
 )
 
+# CORRECTED: Package name uses a period instead of an underscore.
 about_plugin_list <- list(
-  name = "rk.aiken_v",
+  name = "rk.aiken.v",
   author = about_author,
   about = list(
     desc = "An RKWard plugin to calculate Aiken's V coefficient for content validity.",
     version = "0.01-2",
     date = format(Sys.Date(), "%Y-%m-%d"),
-    url = "http://example.com/rk.aiken_v",
+    url = "http://example.com/rk.aiken.v",
     license = "GPL",
     dependencies = "R (>= 3.00)"
   )
@@ -117,8 +120,6 @@ tabs <- rk.XML.tabbook(tabs = list(
     "Main Options" = main_tab_content,
     "Plot" = plot_tab_content
 ))
-
-# CORRECTED Preview Button with explicit arguments
 preview_button <- rk.XML.preview(
   label = "Preview",
   mode = "plot",
@@ -236,7 +237,7 @@ rk.plugin.skeleton(
     printout = js_printout
     ),
   rkh = list(help = aiken_help_rkh),
-  path = "rk.aiken_v",
+  path = "rk.aiken.v", # CORRECTED: Path matches valid package name
   overwrite = TRUE,
   create = c("pmap", "xml", "js", "desc", "rkh"),
   load = TRUE,
@@ -245,15 +246,15 @@ rk.plugin.skeleton(
 
 # --- Final Instructions ---
 message(
-  'Plugin \'rk.aiken_v\' created successfully.\n\n',
+  'Plugin \'rk.aiken.v\' created successfully.\n\n',
   'NEXT STEPS:\n',
   '1. Open RKWard.\n',
   '2. In the R console, run:\n',
-  '   rk.updatePluginMessages("rk.aiken_v")\n',
+  '   rk.updatePluginMessages("rk.aiken.v")\n', # CORRECTED
   '3. Then, to install the plugin in your RKWard session, run:\n',
-  '   rk.load.plugin("rk.aiken_v")\n',
+  '   rk.load.plugin("rk.aiken.v")\n', # CORRECTED
   '4. Or, for a permanent installation (requires devtools), run:\n',
-  '   # Make sure your working directory is the parent of the \'rk.aiken_v\' folder\n',
-  '   # devtools::install("rk.aiken_v")'
+  '   # Make sure your working directory is the parent of the \'rk.aiken.v\' folder\n',
+  '   # devtools::install("rk.aiken.v")' # CORRECTED
 )
 })

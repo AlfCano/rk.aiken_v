@@ -1,4 +1,4 @@
-Package: rk.aiken_v
+Package: rk.aiken.v
 Type: Package
 Title: An RKWard plugin to calculate Aiken's V coefficient for content
         validity.
@@ -12,6 +12,6 @@ Description: An RKWard plugin to calculate Aiken's V coefficient for
 License: GPL
 Encoding: UTF-8
 LazyLoad: yes
-URL: http://example.com/rk.aiken_v
+URL: http://example.com/rk.aiken.v
 Authors@R: person(given="Alfonso", family="Cano Robles",
         email="alfonso.cano@correo.buap.mx", role=c("aut", "cre"))
