@@ -1,0 +1,50 @@
+<!DOCTYPE rkplugin >
+<document>
+	<!--
+		this code was generated using the rkwarddev package.
+	perhaps don't make changes here, but in the rkwarddev script instead!
+	-->
+	<code file="VdeAiken.js" />
+	<help file="VdeAiken.rkh" />
+	<!--
+		<dependencies>
+		</dependencies>
+	-->
+	<logic>
+		<!--
+			<convert id="!edit!" sources="!edit!" mode="equals" standard="!edit!" />
+		-->
+		<!--
+			<connect governor="!edit!.state" client="!edit!.enabled" />
+		-->
+	</logic>
+	<dialog label="Calcular V de Aiken">
+		<column id="clm_tOPOPSSOSS">
+			<tabbook>
+				<tab label="Opciones Principales" id="tab_OpcnsPrn">
+					<column id="clm_rSSOSSSOSV">
+						<row id="row_vrslctSSOS">
+							<varselector id="vrs_Slccnrbj" label="Seleccionar objeto de datos" />
+							<varslot id="var_data" label="Objeto de datos (requerido)" source="vrs_Slccnrbj" />
+						</row>
+						<spinbox label="Valor mínimo en la escala (lo)" id="num_lo" initial="1" min="0" />
+						<spinbox label="Valor máximo en la escala (hi)" id="num_hi" initial="5" min="1" />
+						<dropdown id="drp_p" label="Nivel de confianza (p)">
+							<option label="90%" value="0.90" />
+							<option label="95%" value="0.95" checked="true" />
+							<option label="99%" value="0.99" />
+						</dropdown>
+						<saveobject label="Save design object to" checkable="true" checked="true" initial="aiken_results" id="sav_result" />
+					</column>
+				</tab>
+				<tab label="Gráfico" id="tab_Grfico">
+					<column id="clm_chcCVA1L05">
+						<checkbox id="chk_plot" label="Crear gráfico de V de Aiken" value="1" />
+						<spinbox label="Línea de referencia (yintercept)" id="spin_yintercept" initial="0.5" />
+					</column>
+				</tab>
+			</tabbook>
+			<preview label="Preview" id="prv_Preview" />
+		</column>
+	</dialog>
+</document>

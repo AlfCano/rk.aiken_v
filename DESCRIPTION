@@ -1,0 +1,17 @@
+Package: rk.aiken_v
+Type: Package
+Title: An RKWard plugin to calculate Aiken's V coefficient for content
+        validity.
+Version: 0.01-2
+Date: 2025-09-07
+Author: Alfonso Cano Robles
+Maintainer: Alfonso Cano Robles <alfonso.cano@correo.buap.mx>
+Enhances: rkward
+Description: An RKWard plugin to calculate Aiken's V coefficient for
+        content validity.
+License: GPL
+Encoding: UTF-8
+LazyLoad: yes
+URL: http://example.com/rk.aiken_v
+Authors@R: person(given="Alfonso", family="Cano Robles",
+        email="alfonso.cano@correo.buap.mx", role=c("aut", "cre"))

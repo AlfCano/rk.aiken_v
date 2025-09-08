@@ -1,0 +1,48 @@
+<!DOCTYPE rkhelp >
+<document>
+	<!--
+		this code was generated using the rkwarddev package.
+	perhaps don't make changes here, but in the rkwarddev script instead!
+	-->
+	<title>
+		Aiken's V
+	</title>
+	<summary>
+	</summary>
+	<usage>
+	</usage>
+	<!--
+		<section id="sct_EDITORDE" title="EDIT OR DELETE ME">
+			EDIT OR DELETE ME
+		</section>
+	-->
+	<settings>
+		<caption id="tab_ManOptns" />
+		<setting id="var_data">
+		</setting>
+		<setting id="num_lo">
+		</setting>
+		<setting id="num_hi">
+		</setting>
+		<setting id="drp_p">
+		</setting>
+		<setting id="sav_result">
+		</setting>
+		<caption id="tab_Plot" />
+		<setting id="chk_plot">
+		</setting>
+		<setting id="spin_yintercept">
+		</setting>
+	</settings>
+	<!--
+		<related>
+			<ul>
+				<li>
+					<link href="rkward://rhelp/..." />
+				</li>
+			</ul>
+		</related>
+	-->
+	<technical>
+	</technical>
+</document>
