@@ -23,8 +23,16 @@ A key feature of this plugin is that it goes beyond a simple point estimate of V
 You can install this plugin directly from the repository using the `devtools` package in R.
 
 ```
-# install.packages("devtools")
-devtools::install_github("AlfCano/rk.aiken_v")
+local({
+## Preparar
+require(devtools)
+## Computar
+  install_github(
+    repo="AlfCano/rk.aiken_v"
+  )
+## Imprimir el resultado
+rk.header ("Resultados de Instalar desde git")
+})
 ```
 
 ### Manual Installation
@@ -34,14 +42,14 @@ devtools::install_github("AlfCano/rk.aiken_v")
 
 ## Usage
 
-1.  Once installed, navigate to the **Analysis -> V de Aiken** menu in RKWard.
-2.  In the **Opciones Principales** tab, select the input data frame. The data should be structured with items as rows and judges/raters as columns.
+1.  Once installed, navigate to the **Analysis -> Aiken's V** menu in RKWard.
+2.  In the **Main Options** tab, select the input data frame. The data should be structured with items as rows and judges/raters as columns.
 3.  Specify the lowest (`lo`) and highest (`hi`) possible values on your rating scale.
 4.  Choose the desired confidence level (`p`).
 5.  Optionally, specify an object name to save the results list into.
-6.  Navigate to the **Gráfico** tab.
-7.  Check the "Crear gráfico de V de Aiken" box to enable plotting.
-8.  Adjust the "Línea de referencia" to set a cutoff value for your analysis. You can see the effect of this change in real-time by clicking the **Preview** button.
+6.  Navigate to the **Plot** tab.
+7.  Check the "Create plot of Aiken's V" box to enable plotting.
+8.  Adjust the "Line of reference" to set a cutoff value for your analysis. You can see the effect of this change in real-time by clicking the **Preview** button.
 9.  Click **Submit** to run the full analysis.
 
 ## Output
@@ -51,6 +59,27 @@ The plugin will generate:
 2.  A detailed table showing the V, lower limit (CI_L), and upper limit (CI_U) for each item.
 3.  A table of the parameters used in the calculation.
 4.  If selected, a bar chart visualizing the V and confidence interval for each item.
+
+## A test data.frame
+
+You can test the plug-in with this data set:
+
+```
+test_v <- data.frame(cbind(
+  "r1" = c(2, 2, 2, 2, 3, 3, 3, 1, 1, 1, 4, 4, 2, 1, 4, 4, 3, 3, 3, 3),
+  "r2" = c(5, 2, 3, 2, 3, 4, 3, 2, 2, 3, 4, 4, 3, 2, 5, 4, 4, 3, 4, 4),
+  "r3" = c(5, 3, 4, 3, 4, 4, 4, 3, 3, 5, 4, 5, 4, 3, 5, 5, 4, 3, 4, 4),
+  "r4" = c(5, 3, 4, 4, 5, 5, 4, 3, 3, 5, 4, 5, 4, 4, 5, 5, 4, 4, 5, 4),
+  "r5" = c(5, 3, 4, 5, 5, 5, 4, 4, 3, 5, 4, 5, 4, 4, 5, 5, 4, 4, 5, 5),
+  "r6" = c(5, 4, 5, 5, 5, 5, 4, 5, 4, 5, 5, 5, 5, 4, 5, 5, 5, 4, 5, 5),
+  "r7" = c(5, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 4, 5, 5, 5, 4, 5, 5)
+))
+```
+
+### Deeper discussion
+
+A longer treatment can be found here: [https://alfcano.github.io/aiken_v/](https://alfcano.github.io/aiken_v/)
+
 
 ## License
 
