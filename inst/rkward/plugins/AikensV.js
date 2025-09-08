@@ -91,7 +91,7 @@ function printout(is_preview){
             echo("\n");
             echo("rk.graph.on()\n");
         }
-        
+
         echo("try({\n");
         echo("    p <- aiken_results[[\"v_ci\"]] %>\%\n");
         echo("        tibble::rownames_to_column(var = \"Items\") %>\%\n");
