@@ -2,11 +2,9 @@
 // perhaps don't make changes here, but in the rkwarddev script instead!
 
 function preview(){
-	
-    preprocess();
-    calculate();
-    printout(true);
-
+	preprocess(true);
+	calculate(true);
+	printout(true);
 }
 
 function preprocess(is_preview){
@@ -25,10 +23,10 @@ function calculate(is_preview){
 
 	// the R code to be evaluated
 
-    var data_frame = getValue("var_data");
-    var lo = getValue("num_lo");
-    var hi = getValue("num_hi");
-    var p = getValue("drp_p");
+    var data_frame = getValue("var_data_v");
+    var lo = getValue("num_lo_v");
+    var hi = getValue("num_hi_v");
+    var p = getValue("drp_p_v");
 
     echo("v_aiken <- function(x, lo, hi, p) {\n");
     echo("    n <- ncol(x)\n");
@@ -63,7 +61,7 @@ function calculate(is_preview){
     echo("    return(v_list)\n");
     echo("  }\n");
     echo("\n");
-    echo("aiken_results <- v_aiken(x = " + data_frame + ", lo = " + lo + ", hi = " + hi + ", p = " + p + ")\n");
+    echo("aiken_v_results <- v_aiken(x = " + data_frame + ", lo = " + lo + ", hi = " + hi + ", p = " + p + ")\n");
 
 }
 
@@ -73,55 +71,47 @@ function printout(is_preview){
 
 	// printout the results
 	if(!is_preview) {
-		new Header(i18n("Aiken's V results")).print();	
+		new Header(i18n("Aiken's V for Content Validity")).print();	
 	}
     if (!is_preview) {
-        echo("rk.header(\"Aiken\'s V Coefficient\")\n");
         echo("rk.header(\"Aiken\'s V and Confidence Intervals per Item\", level=3);\n");
-        echo("rk.print(aiken_results$v_ci);\n");
+        echo("rk.print(aiken_v_results$v_ci);\n");
         echo("rk.header(\"Global Means\", level=3);\n");
-        echo("rk.print(aiken_results$means_v);\n");
+        echo("rk.print(aiken_v_results$means_v);\n");
         echo("rk.header(\"Calculation Parameters\", level=3);\n");
-        echo("rk.print(as.data.frame(aiken_results$parameters));\n");
+        echo("rk.print(as.data.frame(aiken_v_results$parameters));\n");
     }
 
-    var create_plot = getValue("chk_plot");
-    if(create_plot == "1" || create_plot == 1 || create_plot == "true" || create_plot === true){
-        if (!is_preview) {
-            echo("\n");
-            echo("rk.graph.on()\n");
-        }
-        
+    var create_plot = getValue("chk_plot_v");
+    if(create_plot == "1"){
+        echo("rk.graph.on()\n");
         echo("try({\n");
-        echo("    p <- aiken_results[[\"v_ci\"]] %>\%\n");
+        echo("    p <- aiken_v_results[[\"v_ci\"]] %>\%\n");
         echo("        tibble::rownames_to_column(var = \"Items\") %>\%\n");
         echo("        ggplot2::ggplot(ggplot2::aes(x = reorder(Items, V, decreasing=FALSE), y = V, ymin = CI_L, ymax = CI_U)) +\n");
         echo("        ggplot2::geom_col(fill = \"lightblue\") +\n");
         echo("        ggplot2::geom_errorbar(width = 0.5) +\n");
         echo("        ggplot2::ylim(0, 1) +\n");
-        echo("        ggplot2::geom_hline(yintercept = " + getValue("spin_yintercept") + ", linetype = \"dashed\", color = \"red\") +\n");
-        echo("        ggplot2::theme(plot.background = ggplot2::element_rect(fill=\"transparent\", color=NA)) +\n");
+        echo("        ggplot2::geom_hline(yintercept = " + getValue("spin_yintercept_v") + ", linetype = \"dashed\", color = \"red\") +\n");
+        echo("        ggplot2::theme_bw() +\n");
         echo("        ggplot2::coord_flip() +\n");
         echo("        ggplot2::ylab(\"V\") +\n");
         echo("        ggplot2::xlab(\"Item\") +\n");
-        echo("        ggplot2::labs(title=\"Bar Plot of Aiken\'s V per Item\", subtitle=paste(\"CI on error bars with p =\", aiken_results$parameters$p))\n");
+        echo("        ggplot2::labs(title=\"Bar Plot of Aiken\'s V per Item\", subtitle=paste(\"CI on error bars with p =\", aiken_v_results$parameters$p))\n");
         echo("    print(p)\n");
         echo("})\n");
-
-        if (!is_preview) {
-            echo("rk.graph.off()\n");
-        }
+        echo("rk.graph.off()\n");
     }
 
 	if(!is_preview) {
 		//// save result object
 		// read in saveobject variables
-		var savResult = getValue("sav_result");
-		var savResultActive = getValue("sav_result.active");
-		var savResultParent = getValue("sav_result.parent");
+		var savResultV = getValue("sav_result_v");
+		var savResultVActive = getValue("sav_result_v.active");
+		var savResultVParent = getValue("sav_result_v.parent");
 		// assign object to chosen environment
-		if(savResultActive) {
-			echo(".GlobalEnv$" + savResult + " <- aiken_results\n");
+		if(savResultVActive) {
+			echo(".GlobalEnv$" + savResultV + " <- aiken_v_results\n");
 		}	
 	}
 

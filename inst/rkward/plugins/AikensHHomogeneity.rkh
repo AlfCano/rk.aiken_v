@@ -5,7 +5,7 @@
 	perhaps don't make changes here, but in the rkwarddev script instead!
 	-->
 	<title>
-		Aiken's V
+		Aiken's H (Homogeneity)
 	</title>
 	<summary>
 	</summary>
@@ -17,21 +17,15 @@
 		</section>
 	-->
 	<settings>
-		<caption id="tab_ManOptns" />
-		<setting id="var_data">
+		<setting id="var_data_h">
 		</setting>
-		<setting id="num_lo">
+		<setting id="num_lo_h">
 		</setting>
-		<setting id="num_hi">
+		<setting id="num_hi_h">
 		</setting>
-		<setting id="drp_p">
+		<setting id="drp_p_h">
 		</setting>
-		<setting id="sav_result">
-		</setting>
-		<caption id="tab_Plot" />
-		<setting id="chk_plot">
-		</setting>
-		<setting id="spin_yintercept">
+		<setting id="sav_result_h">
 		</setting>
 	</settings>
 	<!--

@@ -3,9 +3,9 @@
 >
 <document
 	base_prefix=""
-	namespace="AikensV"
-	id="AikensV_rkward"
-	po_id="AikensV_rkward"
+	namespace="AikensVContentValidity"
+	id="AikensVContentValidity_rkward"
+	po_id="AikensVContentValidity_rkward"
 	priority="medium"
 >
 	<!--
@@ -18,12 +18,12 @@
 	-->
 	<about
 		name="rk.aiken.v"
-		shortinfo="An RKWard plugin to calculate Aiken's V coefficient for content validity."
-		longinfo="An RKWard plugin to calculate Aiken's V coefficient for content validity."
-		version="0.01-2"
-		releasedate="2025-09-07"
-		url="http://example.com/rk.aiken.v"
-		license="GPL"
+		shortinfo="An RKWard plugin to calculate Aiken's coefficients for content validity (V) and homogeneity (H)."
+		longinfo="An RKWard plugin to calculate Aiken's coefficients for content validity (V) and homogeneity (H)."
+		version="0.02.7"
+		releasedate="2025-09-26"
+		url="https://github.com/AlfCano/"
+		license="GPL (&gt;= 3)"
 	>
 		<author
 			given="Alfonso"
@@ -40,10 +40,17 @@
 	/>
 	<components>
 		<component
-			id="cmp_AikensVAikensV"
-			label="Aiken's V"
+			id="cmp_AknsVCntntVldtyAknsHHmgnt"
+			label="Aiken's H (Homogeneity)"
 			type="standard"
-			file="plugins/AikensV.xml"
+			file="plugins/AikensHHomogeneity.xml"
+		>
+		</component>
+		<component
+			id="cmp_AknsVCntntVldtyAknsVCntnV"
+			label="Aiken's V (Content Validity)"
+			type="standard"
+			file="plugins/AikensVContentValidity.xml"
 		>
 		</component>
 	</components>
@@ -53,11 +60,24 @@
 			label="Analysis"
 		>
 			<menu
-				id="AikensV"
-				label="Aiken's V"
+				id="AikensCoefficients"
+				label="Aiken's Coefficients"
 			>
 				<entry
-					component="cmp_AikensVAikensV"
+					component="cmp_AknsVCntntVldtyAknsHHmgnt"
+				/>
+			</menu>
+		</menu>
+		<menu
+			id="analysis"
+			label="Analysis"
+		>
+			<menu
+				id="AikensCoefficients"
+				label="Aiken's Coefficients"
+			>
+				<entry
+					component="cmp_AknsVCntntVldtyAknsVCntnV"
 				/>
 			</menu>
 		</menu>
