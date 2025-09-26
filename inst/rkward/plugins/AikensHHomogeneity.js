@@ -72,7 +72,6 @@ function printout(is_preview){
     echo("rk.print(paste(\"Measures consistency of each rater across all items.\"))\n");
     echo("rk.results(aiken_h_results$H_across_Items, print.rownames=FALSE);\n\n");
     echo("rk.header(\"Significance Test for Mean Homogeneity\", level=3);\n");
-    // CORRECTED: Coerce the list to a data.frame for clean, tabular output.
     echo("rk.results(as.data.frame(aiken_h_results$Significance_of_Mean_H), print.rownames=FALSE);\n");
 
 	//// save result object

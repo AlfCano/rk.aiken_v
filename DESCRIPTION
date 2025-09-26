@@ -2,7 +2,7 @@ Package: rk.aiken.v
 Type: Package
 Title: An RKWard plugin to calculate Aiken's coefficients for content
         validity (V) and homogeneity (H).
-Version: 0.02.7
+Version: 0.02.8
 Date: 2025-09-26
 Author: Alfonso Cano Robles
 Maintainer: Alfonso Cano Robles <alfonso.cano@correo.buap.mx>

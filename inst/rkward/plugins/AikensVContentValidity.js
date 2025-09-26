@@ -84,7 +84,10 @@ function printout(is_preview){
 
     var create_plot = getValue("chk_plot_v");
     if(create_plot == "1"){
-        echo("rk.graph.on()\n");
+        // CORRECTED: rk.graph commands must be excluded from preview runs
+        if(!is_preview) {
+            echo("rk.graph.on()\n");
+        }
         echo("try({\n");
         echo("    p <- aiken_v_results[[\"v_ci\"]] %>\%\n");
         echo("        tibble::rownames_to_column(var = \"Items\") %>\%\n");
@@ -100,7 +103,9 @@ function printout(is_preview){
         echo("        ggplot2::labs(title=\"Bar Plot of Aiken\'s V per Item\", subtitle=paste(\"CI on error bars with p =\", aiken_v_results$parameters$p))\n");
         echo("    print(p)\n");
         echo("})\n");
-        echo("rk.graph.off()\n");
+        if(!is_preview) {
+            echo("rk.graph.off()\n");
+        }
     }
 
 	if(!is_preview) {

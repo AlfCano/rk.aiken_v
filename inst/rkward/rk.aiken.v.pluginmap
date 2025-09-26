@@ -20,7 +20,7 @@
 		name="rk.aiken.v"
 		shortinfo="An RKWard plugin to calculate Aiken's coefficients for content validity (V) and homogeneity (H)."
 		longinfo="An RKWard plugin to calculate Aiken's coefficients for content validity (V) and homogeneity (H)."
-		version="0.02.7"
+		version="0.02.8"
 		releasedate="2025-09-26"
 		url="https://github.com/AlfCano/"
 		license="GPL (&gt;= 3)"
