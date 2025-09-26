@@ -1,0 +1,46 @@
+<!DOCTYPE rkplugin >
+<document>
+	<!--
+		this code was generated using the rkwarddev package.
+	perhaps don't make changes here, but in the rkwarddev script instead!
+	-->
+	<code file="AikensVContentValidity.js" />
+	<help file="AikensVContentValidity.rkh" />
+	<!--
+		<dependencies>
+		</dependencies>
+	-->
+	<logic>
+		<!--
+			<convert id="!edit!" sources="!edit!" mode="equals" standard="!edit!" />
+		-->
+		<!--
+			<connect governor="!edit!.state" client="!edit!.enabled" />
+		-->
+	</logic>
+	<dialog label="Calculate Aiken's V">
+		<column id="clm_tMOMOSSDSM">
+			<tabbook>
+				<tab label="Main Options" id="tab_ManOptns">
+					<row id="row_vSSDSM10M5">
+						<varselector id="vrs_Slctdtbj" label="Select data object" />
+						<column id="clm_vDSM10M51C">
+							<varslot id="var_data_v" label="Data object (required)" source="vrs_Slctdtbj" />
+							<spinbox label="Minimum value on scale (lo)" id="num_lo_v" initial="1" min="0" />
+							<spinbox label="Maximum value on scale (hi)" id="num_hi_v" initial="5" min="1" />
+							<spinbox label="Confidence level (p)" id="drp_p_v" initial="0.95" min="0.001" max="0.999" precision="3" />
+							<saveobject label="Save results to object" checkable="true" checked="true" initial="aiken_v_results" id="sav_result_v" />
+						</column>
+					</row>
+				</tab>
+				<tab label="Plot" id="tab_Plot">
+					<column id="clm_chcCAV1R05">
+						<checkbox id="chk_plot_v" label="Create Aiken's V plot" value="1" />
+						<spinbox label="Reference line (yintercept)" id="spin_yintercept_v" initial="0.5" />
+					</column>
+				</tab>
+			</tabbook>
+			<preview label="Preview" id="prv_Preview" />
+		</column>
+	</dialog>
+</document>

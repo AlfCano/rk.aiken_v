@@ -1,26 +1,43 @@
-# RKWard Plugin: Aiken's V for Content Validity (`rk.aiken_v`)
+# RKWard Plugin: Aiken's V for Content Validity (`rk.aiken.v`)
 
-> An RKWard plugin to calculate Aiken's V coefficient and its score confidence intervals for assessing content validity. Features detailed tabular output and a `ggplot2` bar chart with error bars and a live preview.
+> An RKWard plugin to calculate Aiken's V and H coefficients.
 
-## Overview
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-This plugin provides a comprehensive tool within the RKWard graphical user interface for assessing the content validity of items rated by multiple judges using Aiken's V coefficient.
+This repository contains the source code for `rk.aiken.v`, an RKWard plugin package designed to calculate and interpret two key coefficients proposed by L.R. Aiken for analyzing rating data.
 
-A key feature of this plugin is that it goes beyond a simple point estimate of V. It calculates **score confidence intervals** for the coefficient, allowing for a more robust and statistically sound inferential analysis, as proposed by Penfield & Giacobbi (2004). This helps researchers make more informed decisions about item retention or revision.
+This package provides a user-friendly graphical interface within RKWard for two distinct but related analyses:
+
+1.  **Aiken's V for Content Validity**
+2.  **Aiken's H for Homogeneity**
 
 ## Features
 
--   Calculates Aiken's V for each item in a data frame.
--   Generates score confidence intervals for each V value at user-specified levels (90%, 95%, 99%).
--   Provides summary tables for item-specific results and overall means.
--   Optionally creates a publication-ready bar chart using `ggplot2`, displaying V values with confidence intervals as error bars.
--   Includes a customizable reference line on the plot to visually assess item validity against a criterion.
--   Features a **live plot preview** to adjust the reference line before running the final analysis.
+### 1. Aiken's V (Content Validity)
+
+This plugin calculates Aiken's V, a widely used coefficient to quantify the content validity of a set of items as evaluated by a panel of judges or raters.
+
+-   **Inputs:** Requires a data frame where rows represent items and columns represent raters.
+-   **Calculations:** Computes the V coefficient and its confidence intervals for each item.
+-   **Visualization:** Includes an optional feature to generate a bar plot of the V values with error bars representing the confidence intervals, allowing for easy visual assessment against a reference line.
+-   **Output:** Returns a comprehensive list containing the V values with confidence intervals, global means, and all parameters used in the calculation.
+
+### 2. Aiken's H (Homogeneity)
+
+This plugin, added in version `0.02-0`, calculates Aiken's H, an internal consistency or homogeneity coefficient for rating data based on the formulas from Aiken (1985).
+
+-   **Inputs:** Requires a data frame with items in rows and raters in columns.
+-   **Dual Analysis:** The plugin computes two forms of the H coefficient:
+    -   **H across Raters (`H_n`):** Measures the agreement (homogeneity) among all raters for each individual item.
+    -   **H across Items (`H_m`):** Measures the consistency (homogeneity) of each individual rater's scores across all items.
+-   **Significance Testing:** Includes a large-sample z-test to determine if the overall mean homogeneity of the raters (`mean H_m`) is statistically significant.
+-   **Output:** Returns a list containing neatly formatted tables for the `H_across_Raters` results, the `H_across_Items` results, and a summary of the significance test.
 
 ## Installation
 
 ### With `devtools` (Recommended)
-You can install this plugin directly from the repository using the `devtools` package in R.
+
+1. You can install this plugin directly from the repository using the `devtools` package in R.
 
 ```
 local({
@@ -34,11 +51,28 @@ require(devtools)
 rk.header ("Resultados de Instalar desde git")
 })
 ```
+2.  Restart RKWard. The plugin will be available in the `Analysis` menu.
 
 ### Manual Installation
 1.  Download this repository as a `.zip` file.
 2.  In RKWard, go to **Settings -> R Packages -> Install package(s) from local zip file(s)** and select the downloaded file.
 3.  Restart RKWard. The plugin will be available in the `Analysis` menu.
+    
+
+## Usage
+
+After installation, the plugins will be available in the RKWard menu under:
+
+**Analysis -> Aiken's Coefficients**
+
+-   **Aiken's V (Content Validity):** Select this option to calculate the V coefficient. The dialog will prompt you for a data frame, the minimum and maximum values of your rating scale, and a confidence level.
+-   **Aiken's H (Homogeneity):** Select this option to calculate the H coefficient. The dialog will prompt for a data frame, the scale's minimum and maximum values (to determine the number of categories), and a significance level (alpha) for the z-test.
+
+## Technical Basis
+
+The formulas and methodologies implemented in this package are based on the following publication:
+
+> Aiken, L. R. (1985). Three coefficients for analyzing the reliability and validity of ratings. *Educational and Psychological Measurement, 45*(1), 131-142.
 
 ## Usage
 
@@ -84,3 +118,9 @@ A longer treatment can be found here: [https://alfcano.github.io/aiken_v/](https
 ## License
 
 This plugin is licensed under the GPL (>= 3).
+
+## Author
+
+* Alfonso Cano Robles.  
+* Assited by Gemini a Large Language Model by Google.  
+

@@ -1,0 +1,33 @@
+<!DOCTYPE rkplugin >
+<document>
+	<!--
+		this code was generated using the rkwarddev package.
+	perhaps don't make changes here, but in the rkwarddev script instead!
+	-->
+	<code file="AikensHHomogeneity.js" />
+	<help file="AikensHHomogeneity.rkh" />
+	<!--
+		<dependencies>
+		</dependencies>
+	-->
+	<logic>
+		<!--
+			<convert id="!edit!" sources="!edit!" mode="equals" standard="!edit!" />
+		-->
+		<!--
+			<connect governor="!edit!.state" client="!edit!.enabled" />
+		-->
+	</logic>
+	<dialog label="Calculate Aiken's H">
+		<row id="row_vSSDSM10M4">
+			<varselector id="vrs_Slctdtbj" label="Select data object" />
+			<column id="clm_vDSM10M41S">
+				<varslot id="var_data_h" label="Data object (required)" source="vrs_Slctdtbj" />
+				<spinbox label="Minimum value on scale (lo)" id="num_lo_h" initial="1" min="0" />
+				<spinbox label="Maximum value on scale (hi)" id="num_hi_h" initial="4" min="1" />
+				<spinbox label="Significance level (p)" id="drp_p_h" initial="0.05" min="0.001" max="0.999" precision="3" />
+				<saveobject label="Save results to object" checkable="true" checked="true" initial="aiken_h_results" id="sav_result_h" />
+			</column>
+		</row>
+	</dialog>
+</document>
