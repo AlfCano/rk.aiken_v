@@ -1,5 +1,3 @@
-
-
 local({
 # --- PRE-FLIGHT CHECK ---
 # Stop if the user is accidentally running this inside an existing plugin folder
@@ -7,10 +5,13 @@ if(basename(getwd()) == "rk.aiken.v") {
   stop("Your current working directory is already 'rk.aiken.v'. Please navigate to the parent directory ('..') before running this script to avoid creating a nested folder structure.")
 }
 
-# Require "rkwarddev"
+# Require "rkwarddev" and set the minimum required version
 require(rkwarddev)
+rkwarddev.required("0.08-1")
 
-# --- Plugin Metadata and Author Information ---
+# ---===================================---
+# --- SHARED PLUGIN PACKAGE METADATA    ---
+# ---===================================---
 about_author <- person(
   given = "Alfonso",
   family = "Cano Robles",
@@ -18,16 +19,15 @@ about_author <- person(
   role = c("aut", "cre")
 )
 
-# CORRECTED: Package name uses a period instead of an underscore.
 about_plugin_list <- list(
   name = "rk.aiken.v",
   author = about_author,
   about = list(
-    desc = "An RKWard plugin to calculate Aiken's V coefficient for content validity.",
-    version = "0.01-2",
+    desc = "An RKWard plugin to calculate Aiken's coefficients for content validity (V) and homogeneity (H).",
+    version = "0.02.8", # Incremented version for preview fix
     date = format(Sys.Date(), "%Y-%m-%d"),
-    url = "http://example.com/rk.aiken.v",
-    license = "GPL",
+    url = "https://github.com/AlfCano/",
+    license = "GPL (>= 3)",
     dependencies = "R (>= 3.00)"
   )
 )
@@ -38,9 +38,12 @@ about_node <- rk.XML.about(
   about = about_plugin_list$about
 )
 
+# ---=================================================---
+# --- COMPONENT 1: AIKEN'S V (The "Main" Plugin)      ---
+# ---=================================================---
 
-# --- Help File Definition ---
-plugin_help <- list(
+# --- Help File Definition (Aiken's V) ---
+aiken_v_help_list <- list(
   title = "Aiken's V for Content Validity",
   summary = "This plugin calculates Aiken's V coefficient, which quantifies the content validity of a set of items evaluated by several judges.",
   usage = "Select the data.frame containing the ratings, specify the minimum and maximum values of the rating scale, and choose a confidence level. Optionally, create a bar chart of the results.",
@@ -70,78 +73,73 @@ plugin_help <- list(
   )
 )
 
-# --- Help File Generation ---
-rkh_title <- rk.rkh.title(text = plugin_help$title)
-rkh_summary <- rk.rkh.summary(text = plugin_help$summary)
-rkh_usage <- rk.rkh.usage(text = plugin_help$usage)
-rkh_sections <- lapply(plugin_help$sections, function(sec) {
+# --- Help File Generation (Aiken's V) ---
+v_rkh_title <- rk.rkh.title(text = aiken_v_help_list$title)
+v_rkh_summary <- rk.rkh.summary(text = aiken_v_help_list$summary)
+v_rkh_usage <- rk.rkh.usage(text = aiken_v_help_list$usage)
+v_rkh_sections <- lapply(aiken_v_help_list$sections, function(sec) {
   rk.rkh.section(title = sec$title, text = sec$text)
 })
-aiken_help_rkh <- rk.rkh.doc(
-  title = rkh_title,
-  summary = rkh_summary,
-  usage = rkh_usage,
-  sections = rkh_sections
+aiken_v_help_rkh <- rk.rkh.doc(
+  title = v_rkh_title,
+  summary = v_rkh_summary,
+  usage = v_rkh_usage,
+  sections = v_rkh_sections
 )
 
-
-# --- UI Element Definition ---
-# Main Tab Content
-data_selector <- rk.XML.varselector(label = "Select data object")
-attr(data_selector, "classes") <- "data.frame"
-data_slot <- rk.XML.varslot(label = "Data object (required)", source = data_selector, id.name = "var_data")
-attr(data_slot, "required") <- "1"
-selection_row <- rk.XML.row(data_selector, data_slot)
-lo_spinbox <- rk.XML.spinbox(label = "Minimum value on scale (lo)", id.name = "num_lo", min = 0, initial = 1)
-hi_spinbox <- rk.XML.spinbox(label = "Maximum value on scale (hi)", id.name = "num_hi", min = 1, initial = 5)
-conf_level <- rk.XML.dropdown(
-  label = "Confidence level (p)", id.name = "drp_p",
-  options = list("90%" = list(val = "0.90"), "95%" = list(val = "0.95", chk = TRUE), "99%" = list(val = "0.99"))
+# --- UI Definition (Aiken's V) ---
+v_data_selector <- rk.XML.varselector(label = "Select data object")
+attr(v_data_selector, "classes") <- "data.frame"
+v_data_slot <- rk.XML.varslot(label = "Data object (required)", source = v_data_selector, id.name = "var_data_v")
+attr(v_data_slot, "required") <- "1"
+v_lo_spinbox <- rk.XML.spinbox(label = "Minimum value on scale (lo)", id.name = "num_lo_v", min = 0, initial = 1)
+v_hi_spinbox <- rk.XML.spinbox(label = "Maximum value on scale (hi)", id.name = "num_hi_v", min = 1, initial = 5)
+v_conf_level <- rk.XML.spinbox(
+  label = "Confidence level (p)",
+  id.name = "drp_p_v",
+  real = TRUE,
+  min = 0.001,
+  max = 0.999,
+  initial = 0.95,
+  precision = 3
 )
-save_results <- rk.XML.saveobj(
-  label = "Save results to object", chk = TRUE, checkable = TRUE, initial = "aiken_results",
-  required = FALSE, id.name = "sav_result"
+v_save_results <- rk.XML.saveobj(
+  label = "Save results to object", chk = TRUE, checkable = TRUE, initial = "aiken_v_results",
+  required = FALSE, id.name = "sav_result_v"
 )
-main_tab_content <- rk.XML.col(selection_row, lo_spinbox, hi_spinbox, conf_level, save_results)
 
-# Plotting Tab Content
-plot_checkbox <- rk.XML.checkbox(label = "Create Aiken's V plot", value = "1", id.name = "chk_plot")
-yintercept_spinbox <- rk.XML.spinbox(
+v_options_col <- rk.XML.col(v_data_slot, v_lo_spinbox, v_hi_spinbox, v_conf_level, v_save_results)
+v_main_tab_content <- rk.XML.row(v_data_selector, v_options_col)
+
+v_plot_checkbox <- rk.XML.cbox(label = "Create Aiken's V plot", value = "1", id.name = "chk_plot_v")
+v_yintercept_spinbox <- rk.XML.spinbox(
     label = "Reference line (yintercept)",
     initial = 0.5,
     real = TRUE,
     precision = 2,
-    id.name = "spin_yintercept"
+    id.name = "spin_yintercept_v"
 )
-plot_tab_content <- rk.XML.col(plot_checkbox, yintercept_spinbox)
+v_plot_tab_content <- rk.XML.col(v_plot_checkbox, v_yintercept_spinbox)
 
-# Assemble UI
-tabs <- rk.XML.tabbook(tabs = list(
-    "Main Options" = main_tab_content,
-    "Plot" = plot_tab_content
+v_tabs <- rk.XML.tabbook(tabs = list(
+    "Main Options" = v_main_tab_content,
+    "Plot" = v_plot_tab_content
 ))
-preview_button <- rk.XML.preview(
-  label = "Preview",
-  mode = "plot",
-  placement = "default",
-  active = FALSE,
-  id.name = "auto",
-  i18n = NULL
-)
-aiken_dialog <- rk.XML.dialog(label = "Calculate Aiken's V", child = rk.XML.col(tabs, preview_button))
+v_preview_button <- rk.XML.preview(label = "Preview")
+aiken_v_dialog <- rk.XML.dialog(label = "Calculate Aiken's V", child = rk.XML.col(v_tabs, v_preview_button))
 
-
-# --- JavaScript Logic ---
-js_preprocess <- '
+# --- JavaScript Logic (Aiken's V) ---
+aiken_v_js_logic <- list(
+    results.header = "Aiken's V for Content Validity",
+    preprocess = '
     echo("require(ggplot2)\\n");
     echo("require(tibble)\\n");
-'
-
-js_calculate <- '
-    var data_frame = getValue("var_data");
-    var lo = getValue("num_lo");
-    var hi = getValue("num_hi");
-    var p = getValue("drp_p");
+',
+    calculate = '
+    var data_frame = getValue("var_data_v");
+    var lo = getValue("num_lo_v");
+    var hi = getValue("num_hi_v");
+    var p = getValue("drp_p_v");
 
     echo("v_aiken <- function(x, lo, hi, p) {\\n");
     echo("    n <- ncol(x)\\n");
@@ -176,85 +174,227 @@ js_calculate <- '
     echo("    return(v_list)\\n");
     echo("  }\\n");
     echo("\\n");
-    echo("aiken_results <- v_aiken(x = " + data_frame + ", lo = " + lo + ", hi = " + hi + ", p = " + p + ")\\n");
-'
-
-js_preview <- '
-    preprocess();
-    calculate();
-    printout(true);
-'
-
-js_printout <- '
+    echo("aiken_v_results <- v_aiken(x = " + data_frame + ", lo = " + lo + ", hi = " + hi + ", p = " + p + ")\\n");
+',
+    printout = '
     if (!is_preview) {
-        echo("rk.header(\\"Aiken\\\'s V Coefficient\\")\\n");
         echo("rk.header(\\"Aiken\\\'s V and Confidence Intervals per Item\\", level=3);\\n");
-        echo("rk.print(aiken_results$v_ci);\\n");
+        echo("rk.print(aiken_v_results$v_ci);\\n");
         echo("rk.header(\\"Global Means\\", level=3);\\n");
-        echo("rk.print(aiken_results$means_v);\\n");
+        echo("rk.print(aiken_v_results$means_v);\\n");
         echo("rk.header(\\"Calculation Parameters\\", level=3);\\n");
-        echo("rk.print(as.data.frame(aiken_results$parameters));\\n");
+        echo("rk.print(as.data.frame(aiken_v_results$parameters));\\n");
     }
 
-    var create_plot = getValue("chk_plot");
-    if(create_plot == "1" || create_plot == 1 || create_plot == "true" || create_plot === true){
-        if (!is_preview) {
-            echo("\\n");
+    var create_plot = getValue("chk_plot_v");
+    if(create_plot == "1"){
+        // CORRECTED: rk.graph commands must be excluded from preview runs
+        if(!is_preview) {
             echo("rk.graph.on()\\n");
         }
-
         echo("try({\\n");
-        echo("    p <- aiken_results[[\\"v_ci\\"]] %>\\%\\n");
+        echo("    p <- aiken_v_results[[\\"v_ci\\"]] %>\\%\\n");
         echo("        tibble::rownames_to_column(var = \\"Items\\") %>\\%\\n");
         echo("        ggplot2::ggplot(ggplot2::aes(x = reorder(Items, V, decreasing=FALSE), y = V, ymin = CI_L, ymax = CI_U)) +\\n");
         echo("        ggplot2::geom_col(fill = \\"lightblue\\") +\\n");
         echo("        ggplot2::geom_errorbar(width = 0.5) +\\n");
         echo("        ggplot2::ylim(0, 1) +\\n");
-        echo("        ggplot2::geom_hline(yintercept = " + getValue("spin_yintercept") + ", linetype = \\"dashed\\", color = \\"red\\") +\\n");
-        echo("        ggplot2::theme(plot.background = ggplot2::element_rect(fill=\\"transparent\\", color=NA)) +\\n");
+        echo("        ggplot2::geom_hline(yintercept = " + getValue("spin_yintercept_v") + ", linetype = \\"dashed\\", color = \\"red\\") +\\n");
+        echo("        ggplot2::theme_bw() +\\n");
         echo("        ggplot2::coord_flip() +\\n");
         echo("        ggplot2::ylab(\\"V\\") +\\n");
         echo("        ggplot2::xlab(\\"Item\\") +\\n");
-        echo("        ggplot2::labs(title=\\"Bar Plot of Aiken\\\'s V per Item\\", subtitle=paste(\\"CI on error bars with p =\\", aiken_results$parameters$p))\\n");
+        echo("        ggplot2::labs(title=\\"Bar Plot of Aiken\\\'s V per Item\\", subtitle=paste(\\"CI on error bars with p =\\", aiken_v_results$parameters$p))\\n");
         echo("    print(p)\\n");
         echo("})\\n");
-
-        if (!is_preview) {
+        if(!is_preview) {
             echo("rk.graph.off()\\n");
         }
     }
 '
+)
 
-# --- Plugin Skeleton Generation ---
-rk.plugin.skeleton(
-  about = about_node,
-  pluginmap = list(name = "Aiken's V", hierarchy = list("analysis", "Aiken's V")),
-  xml = list(dialog = aiken_dialog),
-  js = list(
-    preprocess = js_preprocess,
-    calculate = js_calculate,
-    preview = js_preview,
-    printout = js_printout
+# ---=======================================================---
+# --- COMPONENT 2: AIKEN'S H (The "Additional" Plugin)      ---
+# ---=======================================================---
+
+# --- Help File Definition (Aiken's H) ---
+aiken_h_help_list <- list(
+  title = "Aiken's H for Homogeneity",
+  summary = "This plugin calculates Aiken's H coefficient, an internal consistency measure for rating data. It can assess agreement among raters for each item, or the consistency of a single rater across all items.",
+  usage = "Select the data.frame containing the ratings, then specify the minimum and maximum values of the rating scale to determine the number of categories. Finally, select a significance level for the large-sample test.",
+  sections = list(
+    list(
+      title = "Data Structure",
+      text = "<p>The plugin expects a data.frame where <b>rows are items</b> and <b>columns are raters</b>.</p>"
     ),
-  rkh = list(help = aiken_help_rkh),
-  path = "rk.aiken.v", # CORRECTED: Path matches valid package name
-  overwrite = TRUE,
+    list(
+      title = "Main Settings",
+      text = "<p><b>Data Object:</b> The data.frame containing the ratings.</p>
+              <p><b>Minimum value on scale (lo):</b> The lowest possible numeric value on the rating scale (e.g., 1).</p>
+              <p><b>Maximum value on scale (hi):</b> The highest possible numeric value on the rating scale (e.g., 4). These values are used to calculate 'c', the number of rating categories.</p>
+              <p><b>Significance level (p):</b> The alpha level for the large-sample significance test of the mean H (e.g., 0.05).</p>"
+    ),
+    list(
+      title = "Output",
+      text = "<p>The plugin returns a list containing three main components:</p>
+              <ul>
+                <li><b>H_across_Raters:</b> A data.frame showing the homogeneity (agreement) among all raters for each individual item.</li>
+                <li><b>H_across_Items:</b> A data.frame showing the homogeneity (consistency) of each individual rater across all items.</li>
+                <li><b>Significance_of_Mean_H:</b> The results of a large-sample z-test to determine if the overall mean homogeneity of raters is statistically significant.</li>
+              </ul>"
+    )
+  )
+)
+
+# --- Help File Generation (Aiken's H) ---
+h_rkh_title <- rk.rkh.title(text = aiken_h_help_list$title)
+h_rkh_summary <- rk.rkh.summary(text = aiken_h_help_list$summary)
+h_rkh_usage <- rk.rkh.usage(text = aiken_h_help_list$usage)
+h_rkh_sections <- lapply(aiken_h_help_list$sections, function(sec) {
+  rk.rkh.section(title = sec$title, text = sec$text)
+})
+aiken_h_help_rkh <- rk.rkh.doc(
+  title = h_rkh_title,
+  summary = h_rkh_summary,
+  usage = h_rkh_usage,
+  sections = h_rkh_sections
+)
+
+# --- UI Definition (Aiken's H) ---
+h_data_selector <- rk.XML.varselector(label = "Select data object")
+attr(h_data_selector, "classes") <- "data.frame"
+h_data_slot <- rk.XML.varslot(label = "Data object (required)", source = h_data_selector, id.name = "var_data_h")
+attr(h_data_slot, "required") <- "1"
+h_lo_spinbox <- rk.XML.spinbox(label = "Minimum value on scale (lo)", id.name = "num_lo_h", min = 0, initial = 1)
+h_hi_spinbox <- rk.XML.spinbox(label = "Maximum value on scale (hi)", id.name = "num_hi_h", min = 1, initial = 4)
+h_sig_level <- rk.XML.spinbox(
+  label = "Significance level (p)",
+  id.name = "drp_p_h",
+  real = TRUE,
+  min = 0.001,
+  max = 0.999,
+  initial = 0.05,
+  precision = 3
+)
+h_save_results <- rk.XML.saveobj(
+  label = "Save results to object", chk = TRUE, checkable = TRUE, initial = "aiken_h_results",
+  required = FALSE, id.name = "sav_result_h"
+)
+
+h_options_col <- rk.XML.col(h_data_slot, h_lo_spinbox, h_hi_spinbox, h_sig_level, h_save_results)
+aiken_h_dialog <- rk.XML.dialog(label = "Calculate Aiken's H", child = rk.XML.row(h_data_selector, h_options_col))
+
+# --- JavaScript Logic (Aiken's H) ---
+aiken_h_js_logic <- list(
+    results.header = "Aiken's H for Homogeneity",
+    calculate = '
+    var data_frame = getValue("var_data_h");
+    var lo = getValue("num_lo_h");
+    var hi = getValue("num_hi_h");
+    var p = getValue("drp_p_h");
+
+    echo("calculate_s <- function(ratings) {\\n");
+    echo("  ratings <- as.numeric(ratings)\\n");
+    echo("  ratings <- ratings[!is.na(ratings)]\\n");
+    echo("  if (length(ratings) < 2) { return(0) }\\n");
+    echo("  pairs <- combn(ratings, 2)\\n");
+    echo("  s_value <- sum(abs(pairs[1, ] - pairs[2, ]))\\n");
+    echo("  return(s_value)\\n");
+    echo("}\\n\\n");
+
+    echo("aiken_h <- function(df, lo, hi, p) {\\n");
+    echo("  c <- (hi - lo) + 1\\n");
+    echo("  n <- ncol(df)\\n");
+    echo("  m <- nrow(df)\\n");
+    echo("  jm <- ifelse(m %% 2 == 0, 0, 1)\\n");
+    echo("  jn <- ifelse(n %% 2 == 0, 0, 1)\\n");
+    echo("  s_n_values <- apply(df, 1, calculate_s)\\n");
+    echo("  denominator_n <- (c - 1) * (n^2 - jn)\\n");
+    echo("  h_n_values <- 1 - (4 * s_n_values) / denominator_n\\n");
+    echo("  results_n <- data.frame(Item = rownames(df), S_n = s_n_values, H_n = h_n_values)\\n");
+    echo("  s_m_values <- apply(df, 2, calculate_s)\\n");
+    echo("  denominator_m <- (c - 1) * (m^2 - jm)\\n");
+    echo("  h_m_values <- 1 - (4 * s_m_values) / denominator_m\\n");
+    echo("  results_m <- data.frame(Rater = colnames(df), S_m = s_m_values, H_m = h_m_values)\\n");
+    echo("  H_bar <- mean(results_m$H_m, na.rm = TRUE)\\n");
+    echo("  mu_h <- (2 * (c + 1) + (m + jm) * (c - 2)) / (3 * c * (m + jm))\\n");
+    echo("  sigma_numerator_part1 <- 2 * (c + 1) * (m + jm - 1)\\n");
+    echo("  sigma_numerator_part2 <- c^2 * (m + 3) - 2 * (2*m - 9)\\n");
+    echo("  sigma_numerator <- sqrt(sigma_numerator_part1 * sigma_numerator_part2)\\n");
+    echo("  sigma_denominator <- (c - 1) * (m + jm) * (m^2 - jm)\\n");
+    echo("  sigma_h <- if (sigma_denominator == 0) { NA } else { (2 / (3*c)) * (sigma_numerator / sigma_denominator) }\\n");
+    echo("  z_score <- if (is.na(sigma_h) || sigma_h == 0) { NA } else { sqrt(n) * (H_bar - mu_h) / sigma_h }\\n");
+    echo("  p_value <- pnorm(z_score, lower.tail = FALSE)\\n");
+    echo("  is_significant <- p_value < p\\n");
+    echo("  significance_test <- list(description = \\"Large-sample test for the mean of H across items (H_m)\\", mean_H = H_bar, population_mean_mu = mu_h, population_sd_sigma = sigma_h, z_score = z_score, p_value = p_value, alpha = p, is_significant = is_significant)\\n");
+    echo("  final_list <- list(H_across_Raters = results_n, H_across_Items = results_m, Significance_of_Mean_H = significance_test)\\n");
+    echo("  return(final_list)\\n");
+    echo("}\\n\\n");
+
+    echo("aiken_h_results <- aiken_h(df = " + data_frame + ", lo = " + lo + ", hi = " + hi + ", p = " + p + ")\\n");
+',
+    printout = '
+    echo("rk.header(\\"Homogeneity across Raters (Hn)\\", level=3);\\n");
+    echo("rk.print(paste(\\"Measures agreement among raters for each item.\\"))\\n");
+    echo("rk.results(aiken_h_results$H_across_Raters, print.rownames=FALSE);\\n\\n");
+    echo("rk.header(\\"Homogeneity across Items (Hm)\\", level=3);\\n");
+    echo("rk.print(paste(\\"Measures consistency of each rater across all items.\\"))\\n");
+    echo("rk.results(aiken_h_results$H_across_Items, print.rownames=FALSE);\\n\\n");
+    echo("rk.header(\\"Significance Test for Mean Homogeneity\\\", level=3);\\n");
+    echo("rk.results(as.data.frame(aiken_h_results$Significance_of_Mean_H), print.rownames=FALSE);\\n");
+'
+)
+
+# --- Component Definition (Aiken's H) ---
+aiken_h_component <- rk.plugin.component(
+  "Aiken's H (Homogeneity)",
+  xml = list(dialog = aiken_h_dialog),
+  js = aiken_h_js_logic,
+  rkh = list(help = aiken_h_help_rkh),
+  hierarchy = list("analysis", "Aiken's Coefficients")
+)
+
+# ---===================================---
+# --- PLUGIN SKELETON GENERATION        ---
+# ---===================================---
+
+rk.plugin.skeleton(
+  # Shared metadata
+  about = about_node,
+  path = about_plugin_list$name,
+
+  # Main plugin (Aiken's V) definition
+  pluginmap = list(
+    name = "Aiken's V (Content Validity)",
+    hierarchy = list("analysis", "Aiken's Coefficients")
+  ),
+  xml = list(dialog = aiken_v_dialog),
+  js = aiken_v_js_logic,
+  rkh = list(help = aiken_v_help_rkh),
+
+  # List of additional plugin components
+  components = list(aiken_h_component),
+
+  # Standard generation options
   create = c("pmap", "xml", "js", "desc", "rkh"),
+  overwrite = TRUE,
   load = TRUE,
   show = TRUE
 )
 
 # --- Final Instructions ---
 message(
-  'Plugin \'rk.aiken.v\' created successfully.\n\n',
+  'Plugin package \'', about_plugin_list$name, '\' created successfully.\n\n',
   'NEXT STEPS:\n',
   '1. Open RKWard.\n',
   '2. In the R console, run:\n',
-  '   rk.updatePluginMessages("rk.aiken.v")\n', # CORRECTED
-  '3. Then, to install the plugin in your RKWard session, run:\n',
-  '   rk.load.plugin("rk.aiken.v")\n', # CORRECTED
+  '   rk.updatePluginMessages("', about_plugin_list$name, '")\n',
+  '3. Then, to install the plugins in your RKWard session, run:\n',
+  '   rk.load.plugin("', about_plugin_list$name, '")\n',
   '4. Or, for a permanent installation (requires devtools), run:\n',
-  '   # Make sure your working directory is the parent of the \'rk.aiken.v\' folder\n',
-  '   # devtools::install("rk.aiken.v")' # CORRECTED
+  '   # Make sure your working directory is the PARENT of the \'', about_plugin_list$name, '\' folder\n',
+  '   # devtools::install("', about_plugin_list$name, '")'
 )
+
 })
