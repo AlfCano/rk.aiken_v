@@ -3,6 +3,7 @@
 > An RKWard plugin to calculate Aiken's V coefficient and its score confidence intervals for assessing content validity. Features detailed tabular output and a `ggplot2` bar chart with error bars and a live preview.
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![R Linter](https://github.com/AlfCano/rk.aiken_v/actions/workflows/lintr.yml/badge.svg)](https://github.com/AlfCano/rk.aiken_v/actions/workflows/lintr.yml)
 
 This repository contains the source code for `rk.aiken.v`, an RKWard plugin package designed to calculate and interpret two key coefficients proposed by L.R. Aiken for analyzing rating data.
 
