@@ -101,3 +101,8 @@ A longer treatment can be found here: [https://alfcano.github.io/aiken_v/](https
 ## License
 
 This plugin is licensed under the GPL (>= 3).
+
+## Author
+
+* Alfonso Cano Robles (alfonso.cano@correo.buap.mx)  
+* Assisted by Gemini, a large language model from Google.
