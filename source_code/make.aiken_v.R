@@ -1,9 +1,4 @@
 local({
-# --- PRE-FLIGHT CHECK ---
-# Stop if the user is accidentally running this inside an existing plugin folder
-if(basename(getwd()) == "rk.aiken.v") {
-  stop("Your current working directory is already 'rk.aiken.v'. Please navigate to the parent directory ('..') before running this script to avoid creating a nested folder structure.")
-}
 
 # Require "rkwarddev" and set the minimum required version
 require(rkwarddev)
@@ -362,7 +357,7 @@ aiken_h_component <- rk.plugin.component(
 rk.plugin.skeleton(
   # Shared metadata
   about = about_node,
-  path = about_plugin_list$name,
+  path = ".",
 
   # Main plugin (Aiken's V) definition
   pluginmap = list(
