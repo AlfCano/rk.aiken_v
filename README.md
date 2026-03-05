@@ -24,7 +24,7 @@ This package provides a user-friendly graphical interface within RKWard for two 
 This plugin calculates Aiken's V, a widely used coefficient to quantify the content validity of a set of items as evaluated by a panel of judges or raters.
 
 
-  <img src="screenshots/example1.png" alt="Hierarchy" width="30%">
+  <img src="screenshots/example1.png" alt="Hierarchy" width="40%">
     
     
 -   **Inputs:** Requires a data frame where rows represent items and columns represent raters.
@@ -34,7 +34,7 @@ This plugin calculates Aiken's V, a widely used coefficient to quantify the cont
 -   **Calculations:** Computes the V coefficient and its confidence intervals for each item.
 -   **Visualization:** Includes an optional feature to generate a bar plot of the V values with error bars representing the confidence intervals, allowing for easy visual assessment against a reference line.
 
-    <img src="screenshots/example2_2.png" alt="Validity plot" width="60%">
+    <img src="screenshots/example2_2.png" alt="Validity plot" width="80%">
 
 -   **Output:** Returns a comprehensive list containing the V values with confidence intervals, global means, and all parameters used in the calculation.
 
