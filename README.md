@@ -54,13 +54,13 @@ This plugin, added in version `0.02-0`, calculates Aiken's H, an internal consis
 
 ## Installation
 
-### With `devtools` (Recommended)
-You can install this plugin directly from the repository using the `devtools` package in R.
+### With `remotes` (Recommended)
+You can install this plugin directly from the repository using the `remotes` package in R.
 
 ```
 local({
 ## Preparar
-require(devtools)
+require(remotes)
 ## Computar
   install_github(
     repo="AlfCano/rk.aiken_v"
