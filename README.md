@@ -23,12 +23,13 @@ This package provides a user-friendly graphical interface within RKWard for two 
 
 This plugin calculates Aiken's V, a widely used coefficient to quantify the content validity of a set of items as evaluated by a panel of judges or raters.
 
-    <img src="screenshots/example1.png" alt="Hierarchy" width="40%">
+
+  <img src="screenshots/example1.png" alt="Hierarchy" width="30%">
     
     
 -   **Inputs:** Requires a data frame where rows represent items and columns represent raters.
 
-    <img src="screenshots/example2_1.png" alt="Validity input" width="60%">
+  <img src="screenshots/example2_1.png" alt="Validity input" width="60%">
 
 -   **Calculations:** Computes the V coefficient and its confidence intervals for each item.
 -   **Visualization:** Includes an optional feature to generate a bar plot of the V values with error bars representing the confidence intervals, allowing for easy visual assessment against a reference line.
@@ -49,7 +50,7 @@ This plugin, added in version `0.02-0`, calculates Aiken's H, an internal consis
 -   **Significance Testing:** Includes a large-sample z-test to determine if the overall mean homogeneity of the raters (`mean H_m`) is statistically significant.
 -   **Output:** Returns a list containing neatly formatted tables for the `H_across_Raters` results, the `H_across_Items` results, and a summary of the significance test.
 
-    <img src="screenshots/ejemplo1.png" alt="Calculate Aiken's H" width="60%">
+    <img src="screenshots/example3.png" alt="Calculate Aiken's H" width="60%">
 
 ## Installation
 
