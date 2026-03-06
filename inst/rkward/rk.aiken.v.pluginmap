@@ -17,7 +17,7 @@
 		</dependencies>
 	-->
 	<about
-		name="rk.aiken_v"
+		name="rk.aiken.v"
 		shortinfo="An RKWard plugin to calculate Aiken's coefficients for content validity (V) and homogeneity (H)."
 		longinfo="An RKWard plugin to calculate Aiken's coefficients for content validity (V) and homogeneity (H)."
 		version="0.02.9"

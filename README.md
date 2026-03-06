@@ -1,4 +1,4 @@
-# RKWard Plugin: Aiken's V for Content Validity (`rk.aiken_v`)
+# RKWard Plugin: Aiken's V for Content Validity (`rk.aiken.v`)
 
 > An RKWard plugin to calculate Aiken's V coefficient and its score confidence intervals for assessing content validity. Features detailed tabular output and a `ggplot2` bar chart with error bars and a live preview.
 

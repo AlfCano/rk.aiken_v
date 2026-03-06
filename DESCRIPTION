@@ -1,4 +1,4 @@
-Package: rk.aiken_v
+Package: rk.aiken.v
 Type: Package
 Title: An RKWard plugin to calculate Aiken's coefficients for content
         validity (V) and homogeneity (H).
