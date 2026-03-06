@@ -70,7 +70,7 @@ local({
 require(remotes)
 ## Computar
   install_github(
-    repo="AlfCano/rk.aiken_v"
+    repo="AlfCano/rk.aiken.v"
   )
 ## Imprimir el resultado
 rk.header ("Resultados de Instalar desde git")
