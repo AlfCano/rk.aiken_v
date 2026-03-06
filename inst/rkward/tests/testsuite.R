@@ -1,8 +1,8 @@
 ## definition of the test suite
   suite <- new("RKTestSuite",
-    id="rk.aiken.v",
+    id="rk.aiken_v",
     ## needed packages
-    libraries = c("rk.aiken.v"),
+    libraries = c("rk.aiken_v"),
     ## initCalls are run *before* any tests. Use this to set up the environment
     initCalls = list(
       function(){

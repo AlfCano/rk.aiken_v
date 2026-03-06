@@ -1,4 +1,9 @@
 local({
+# --- PRE-FLIGHT CHECK ---
+# Stop if the user is accidentally running this inside an existing plugin folder
+if(basename(getwd()) == "rk.aiken.v") {
+  stop("Your current working directory is already 'rk.aiken.v'. Please navigate to the parent directory ('..') before running this script to avoid creating a nested folder structure.")
+}
 
 # Require "rkwarddev" and set the minimum required version
 require(rkwarddev)
@@ -15,11 +20,11 @@ about_author <- person(
 )
 
 about_plugin_list <- list(
-  name = "rk.aiken.v",
+  name = "rk.aiken_v",
   author = about_author,
   about = list(
     desc = "An RKWard plugin to calculate Aiken's coefficients for content validity (V) and homogeneity (H).",
-    version = "0.02.8", # Incremented version for preview fix
+    version = "0.02.9",
     date = format(Sys.Date(), "%Y-%m-%d"),
     url = "https://github.com/AlfCano/",
     license = "GPL (>= 3)",

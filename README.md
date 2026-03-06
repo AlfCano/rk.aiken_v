@@ -2,20 +2,29 @@
 
 > An RKWard plugin to calculate Aiken's V coefficient and its score confidence intervals for assessing content validity. Features detailed tabular output and a `ggplot2` bar chart with error bars and a live preview.
 
-![Version](https://img.shields.io/badge/Version-0.02.8-blue.svg)
+![Version](https://img.shields.io/badge/Version-0.02.9-blue.svg)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 ![RKWard](https://img.shields.io/badge/Platform-RKWard-green)
 [![R Linter](https://github.com/AlfCano/rk.aiken_v/actions/workflows/lintr.yml/badge.svg)](https://github.com/AlfCano/rk.aiken_v/actions/workflows/lintr.yml)
 ![AI Gemini](https://img.shields.io/badge/AI-Gemini-4285F4?logo=googlegemini&logoColor=white)
 
-This repository contains the source code for `rk.aiken.v`, an RKWard plugin package designed to calculate and interpret two key coefficients proposed by L.R. Aiken for analyzing rating data.
+This repository contains the source code for `rk.aiken_v`, an RKWard plugin package designed to calculate and interpret two key coefficients proposed by L.R. Aiken for analyzing rating data.
 
 This package provides a user-friendly graphical interface within RKWard for two distinct but related analyses:
 
 1.  **Aiken's V for Content Validity**
 2.  **Aiken's H for Homogeneity**
 
+## 🌍 Internationalization
 
+As of version 0.02.9, this plugin is fully localized. The interface automatically adapts to the language settings of your RKWard installation.
+
+**Supported Languages:**
+*   🇺🇸 **English** (Default)
+*   🇪🇸 **Spanish** (`es`)
+*   🇫🇷 **French** (`fr`)
+*   🇩🇪 **German** (`de`)
+*   🇧🇷 **Portuguese** (Brazil) (`pt_BR`)
 
 ## Features
 
@@ -23,9 +32,7 @@ This package provides a user-friendly graphical interface within RKWard for two 
 
 This plugin calculates Aiken's V, a widely used coefficient to quantify the content validity of a set of items as evaluated by a panel of judges or raters.
 
-
   <img src="screenshots/example1.png" alt="Hierarchy" width="40%">
-    
     
 -   **Inputs:** Requires a data frame where rows represent items and columns represent raters.
 
@@ -41,7 +48,7 @@ This plugin calculates Aiken's V, a widely used coefficient to quantify the cont
 
 ### 2. Aiken's H (Homogeneity)
 
-This plugin, added in version `0.02-0`, calculates Aiken's H, an internal consistency or homogeneity coefficient for rating data based on the formulas from Aiken (1985).
+This plugin calculates Aiken's H, an internal consistency or homogeneity coefficient for rating data based on the formulas from Aiken (1985).
 
 -   **Inputs:** Requires a data frame with items in rows and raters in columns.
 -   **Dual Analysis:** The plugin computes two forms of the H coefficient:
@@ -57,7 +64,7 @@ This plugin, added in version `0.02-0`, calculates Aiken's H, an internal consis
 ### With `remotes` (Recommended)
 You can install this plugin directly from the repository using the `remotes` package in R.
 
-```
+```R
 local({
 ## Preparar
 require(remotes)
@@ -77,14 +84,14 @@ rk.header ("Resultados de Instalar desde git")
 
 ## Usage
 
-1.  Once installed, navigate to the **Analysis -> Aiken's V** menu in RKWard.
+1.  Once installed, navigate to the **Analysis -> Aiken's Coefficients -> Aiken's V (Content Validity)** menu in RKWard.
 2.  In the **Main Options** tab, select the input data frame. The data should be structured with items as rows and judges/raters as columns.
 3.  Specify the lowest (`lo`) and highest (`hi`) possible values on your rating scale.
 4.  Choose the desired confidence level (`p`).
 5.  Optionally, specify an object name to save the results list into.
 6.  Navigate to the **Plot** tab.
 7.  Check the "Create plot of Aiken's V" box to enable plotting.
-8.  Adjust the "Line of reference" to set a cutoff value for your analysis. You can see the effect of this change in real-time by clicking the **Preview** button.
+8.  Adjust the "Reference line" to set a cutoff value for your analysis. You can see the effect of this change in real-time by clicking the **Preview** button.
 9.  Click **Submit** to run the full analysis.
 
 ## Output
@@ -99,7 +106,7 @@ The plugin will generate:
 
 You can test the plug-in with this data set:
 
-```
+```R
 test_v <- data.frame(cbind(
   "r1" = c(2, 2, 2, 2, 3, 3, 3, 1, 1, 1, 4, 4, 2, 1, 4, 4, 3, 3, 3, 3),
   "r2" = c(5, 2, 3, 2, 3, 4, 3, 2, 2, 3, 4, 4, 3, 2, 5, 4, 4, 3, 4, 4),
@@ -115,15 +122,12 @@ test_v <- data.frame(cbind(
 
 A longer treatment can be found here: [https://alfcano.github.io/aiken_v/](https://alfcano.github.io/aiken_v/)
 
-
 ## License
 
 This plugin is licensed under the GPL (>= 3).
 
 ## Author
 
-
 *   **Author:** Alfonso Cano (<alfonso.cano@correo.buap.mx>)
 *   **Assisted by:** Gemini, a large language model from Google.
 *   **License:** GPL (>= 3)
-

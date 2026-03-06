@@ -1,0 +1,184 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: rk.aiken_v 0.02.9\n"
+"Report-Msgid-Bugs-To: alfonso.cano@correo.buap.mx\n"
+"POT-Creation-Date: 2026-03-06 12:15-0600\n"
+"PO-Revision-Date: 2026-03-06 12:15-0600\n"
+"Last-Translator: Alfonso Cano <alfonso.cano@correo.buap.mx>\n"
+"Language-Team: German <rkward-devel@kde.org>\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Aiken's Coefficients"
+msgstr "Aikens Koeffizienten"
+
+msgid "Aiken's V (Content Validity)"
+msgstr "Aikens V (Inhaltsvalidität)"
+
+msgid "Aiken's H (Homogeneity)"
+msgstr "Aikens H (Homogenität)"
+
+msgid "Calculate Aiken's V"
+msgstr "Aikens V berechnen"
+
+msgid "Select data object"
+msgstr "Datenobjekt auswählen"
+
+msgid "Data object (required)"
+msgstr "Datenobjekt (erforderlich)"
+
+msgid "Minimum value on scale (lo)"
+msgstr "Minimalwert auf Skala (lo)"
+
+msgid "Maximum value on scale (hi)"
+msgstr "Maximalwert auf Skala (hi)"
+
+msgid "Confidence level (p)"
+msgstr "Konfidenzniveau (p)"
+
+msgid "Save results to object"
+msgstr "Ergebnisse in Objekt speichern"
+
+msgid "Main Options"
+msgstr "Hauptoptionen"
+
+msgid "Plot"
+msgstr "Plot"
+
+msgid "Create Aiken's V plot"
+msgstr "Aikens V Plot erstellen"
+
+msgid "Reference line (yintercept)"
+msgstr "Referenzlinie (yintercept)"
+
+msgid "Preview"
+msgstr "Vorschau"
+
+msgid "Aiken's V for Content Validity"
+msgstr "Aikens V für Inhaltsvalidität"
+
+msgid "This plugin calculates Aiken's V coefficient, which quantifies the content validity of a set of items evaluated by several judges."
+msgstr "Dieses Plugin berechnet Aikens V-Koeffizienten, der die Inhaltsvalidität einer Reihe von Items quantifiziert, die von mehreren Richtern bewertet wurden."
+
+msgid "Select the data.frame containing the ratings, specify the minimum and maximum values of the rating scale, and choose a confidence level. Optionally, create a bar chart of the results."
+msgstr "Wählen Sie den data.frame mit den Bewertungen, spezifizieren Sie Min/Max der Skala und wählen Sie ein Konfidenzniveau. Optional: Balkendiagramm erstellen."
+
+msgid "Main Settings"
+msgstr "Haupteinstellungen"
+
+msgid "Data Object: The data.frame containing the data. Each row should represent an item and each column a judge's rating."
+msgstr "Datenobjekt: Der data.frame mit den Daten. Jede Zeile ein Item, jede Spalte eine Richterbewertung."
+
+msgid "Minimum value on scale (lo): The lowest possible numeric value on the rating scale (e.g., 0 or 1)."
+msgstr "Minimalwert (lo): Der niedrigstmögliche numerische Wert auf der Skala (z. B. 0 oder 1)."
+
+msgid "Maximum value on scale (hi): The highest possible numeric value on the rating scale (e.g., 5)."
+msgstr "Maximalwert (hi): Der höchstmögliche numerische Wert auf der Skala (z. B. 5)."
+
+msgid "Confidence level (p): The proportion for the confidence interval calculation (e.g., 0.95 for 95% confidence)."
+msgstr "Konfidenzniveau (p): Anteil für die Konfidenzintervallberechnung (z. B. 0.95 für 95%)."
+
+msgid "Plot Tab"
+msgstr "Plot-Tab"
+
+msgid "This tab provides options for visualizing the results."
+msgstr "Dieser Tab bietet Optionen zur Visualisierung der Ergebnisse."
+
+msgid "Create Aiken's V plot: If checked, a bar chart will be generated showing the V value for each item, with its confidence intervals as error bars."
+msgstr "Aikens V Plot erstellen: Erzeugt ein Balkendiagramm des V-Wertes pro Item mit Konfidenzintervallen als Fehlerbalken."
+
+msgid "Reference line: Allows setting the value for a dashed horizontal line on the plot, useful as a cutoff point for validity."
+msgstr "Referenzlinie: Setzt eine gestrichelte horizontale Linie im Plot, nützlich als Cutoff-Punkt für Validität."
+
+msgid "Output"
+msgstr "Ausgabe"
+
+msgid "The plugin returns a list containing:"
+msgstr "Das Plugin gibt eine Liste zurück mit:"
+
+msgid "v_ci: A data.frame with the Aiken's V value and the lower (CI_L) and upper (CI_U) confidence interval limits for each item."
+msgstr "v_ci: Ein data.frame mit Aikens V-Wert sowie unteren (CI_L) und oberen (CI_U) Konfidenzgrenzen pro Item."
+
+msgid "means_v: The overall means of V, CI_L, and CI_U."
+msgstr "means_v: Die Gesamtmittelwerte von V, CI_L und CI_U."
+
+msgid "parameters: A list with the parameters used in the calculation (n, k, p, z, etc.)."
+msgstr "parameters: Eine Liste der im Berechnung verwendeten Parameter (n, k, p, z, etc.)."
+
+msgid "Aiken's V and Confidence Intervals per Item"
+msgstr "Aikens V und Konfidenzintervalle pro Item"
+
+msgid "Global Means"
+msgstr "Globale Mittelwerte"
+
+msgid "Calculation Parameters"
+msgstr "Berechnungsparameter"
+
+msgid "Bar Plot of Aiken's V per Item"
+msgstr "Balkendiagramm von Aikens V pro Item"
+
+msgid "CI on error bars with p ="
+msgstr "KI auf Fehlerbalken mit p ="
+
+msgid "Calculate Aiken's H"
+msgstr "Aikens H berechnen"
+
+msgid "Significance level (p)"
+msgstr "Signifikanzniveau (p)"
+
+msgid "Aiken's H for Homogeneity"
+msgstr "Aikens H für Homogenität"
+
+msgid "This plugin calculates Aiken's H coefficient, an internal consistency measure for rating data. It can assess agreement among raters for each item, or the consistency of a single rater across all items."
+msgstr "Berechnet Aikens H-Koeffizienten, ein Maß für interne Konsistenz. Bewertet Übereinstimmung zwischen Richtern pro Item oder Konsistenz eines Richters über alle Items."
+
+msgid "Select the data.frame containing the ratings, then specify the minimum and maximum values of the rating scale to determine the number of categories. Finally, select a significance level for the large-sample test."
+msgstr "Wählen Sie den data.frame, spezifizieren Sie Min/Max der Skala zur Bestimmung der Kategorienanzahl. Wählen Sie ein Signifikanzniveau."
+
+msgid "Data Structure"
+msgstr "Datenstruktur"
+
+msgid "The plugin expects a data.frame where rows are items and columns are raters."
+msgstr "Das Plugin erwartet einen data.frame, in dem Zeilen Items und Spalten Richter sind."
+
+msgid "Data Object: The data.frame containing the ratings."
+msgstr "Datenobjekt: Der data.frame mit den Bewertungen."
+
+msgid "Maximum value on scale (hi): The highest possible numeric value on the rating scale (e.g., 4). These values are used to calculate 'c', the number of rating categories."
+msgstr "Maximalwert (hi): Der höchste numerische Wert (z. B. 4). Wird genutzt, um 'c', die Anzahl der Kategorien, zu berechnen."
+
+msgid "Significance level (p): The alpha level for the large-sample significance test of the mean H (e.g., 0.05)."
+msgstr "Signifikanzniveau (p): Alpha-Level für den Signifikanztest der mittleren H bei großen Stichproben (z. B. 0.05)."
+
+msgid "The plugin returns a list containing three main components:"
+msgstr "Das Plugin gibt eine Liste mit drei Hauptkomponenten zurück:"
+
+msgid "H_across_Raters: A data.frame showing the homogeneity (agreement) among all raters for each individual item."
+msgstr "H_across_Raters: Ein data.frame, der die Homogenität (Übereinstimmung) aller Richter für jedes einzelne Item zeigt."
+
+msgid "H_across_Items: A data.frame showing the homogeneity (consistency) of each individual rater across all items."
+msgstr "H_across_Items: Ein data.frame, der die Homogenität (Konsistenz) jedes einzelnen Richters über alle Items zeigt."
+
+msgid "Significance_of_Mean_H: The results of a large-sample z-test to determine if the overall mean homogeneity of raters is statistically significant."
+msgstr "Significance_of_Mean_H: Ergebnisse eines z-Tests für große Stichproben zur Bestimmung der statistischen Signifikanz der mittleren Homogenität."
+
+msgid "Homogeneity across Raters (Hn)"
+msgstr "Homogenität über Richter (Hn)"
+
+msgid "Measures agreement among raters for each item."
+msgstr "Misst Übereinstimmung zwischen Richtern für jedes Item."
+
+msgid "Homogeneity across Items (Hm)"
+msgstr "Homogenität über Items (Hm)"
+
+msgid "Measures consistency of each rater across all items."
+msgstr "Misst Konsistenz jedes Richters über alle Items."
+
+msgid "Significance Test for Mean Homogeneity"
+msgstr "Signifikanztest für mittlere Homogenität"
+
+msgid "Large-sample test for the mean of H across items (H_m)"
+msgstr "Test für große Stichproben für Mittelwert von H über Items (H_m)"
